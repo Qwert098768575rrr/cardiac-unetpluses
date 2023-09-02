@@ -88,11 +88,11 @@ pin_memory = True
 num_workers = 0
 
 num_classes = 2
-model = unetpluses(num_classes) #模型
+model = unetpluses(num_classes) #Model
 save_path = "result_unetpluses_o"
 contours_type = "o_labels"
 Loss = dice_Loss
-optimizer = optim.Adam(model.parameters(),lr) #优化器
+optimizer = optim.Adam(model.parameters(),lr) #optimizer
 #--------------------------------------------#
 
 
