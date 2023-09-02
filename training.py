@@ -32,15 +32,15 @@ def train(epoch,Epoch,dataloader):
                 pngs = pngs.cuda()
                 labels = labels.cuda()
             optimizer.zero_grad()
-            #模型预测
+            #Model prediction
             jpgs = model(jpgs)
-            #计算loss
+            #Calculate loss
             loss,dice = Loss(jpgs,pngs,labels)
-            #反向传播
+            #backpropagation
             loss.backward()
-            #梯度下降
+            #gradient descent
             optimizer.step()
-            #计算这一个minibatch的loss并计入到这个epoch的loss之中
+            #Calculate the loss of this minibatch and include it in the loss of this epoch
             running_loss+= loss.item()
             pbar.set_postfix(**{'total_loss': running_loss / (i + 1),
                                 'lr': get_lr(optimizer)})
@@ -77,8 +77,8 @@ def test(train_loss,epoch,Epoch,dataloader):
     return val_loss,val_dice
 
 
-#--------------------参数----------------------#
-#linux下相对路径报错时,补全绝对路径
+#--------------------parameter----------------------#
+#When a relative path error is reported under Linux, complete the absolute path
 path = ""
 batch_size = 2
 lr = 1e-4
@@ -96,8 +96,8 @@ optimizer = optim.Adam(model.parameters(),lr) #优化器
 #--------------------------------------------#
 
 
-#加载数据集
-# Mridataset(数据列表路径,图片大小,分类种类,是否数据增强)
+#Load dataset
+# Mridataset (data list path, image size, classification type, whether data enhancement)
 train_set = Mridataset("dataset/train.txt", contours_type, (256, 256), num_classes, False)
 val_set = Mridataset("dataset/val.txt", contours_type,(256, 256), num_classes, False)
 
@@ -107,7 +107,7 @@ val_loader = DataLoader(dataset=val_set,batch_size=batch_size,shuffle=True,num_w
                                 drop_last=True)
 
 if __name__ == '__main__':
-    #使用迭代器去first_batch,看是否能过拟合
+    #Use an iterator to first_batch to see if it can overfit.
     # first_batch = next(iter(train_loader))
     trainloss_list = "./"+save_path+"/loss_graph/trainloss_list.txt"
     valoss_list = "./"+save_path+"/loss_graph/valoss_list.txt"
